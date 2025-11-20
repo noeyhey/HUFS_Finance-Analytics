@@ -29,6 +29,8 @@ abline(h=0,col="red")
 plot(model$residuals~data$time,type="b")
 abline(h=0,col="red")
 
+acf(model$residuals)
+
 
 #install.packages("lmtest")
 library(lmtest)
@@ -72,8 +74,10 @@ summary(model)
 acf(model$residuals)
 
 
-
 modelwithm1<-lm(lnconsump~lndpi+lnwealth+interest + dpim1+wealm1+intm1, data=data)      
+summary(modelwithm1)
+
+modelwithm1<-lm(lnconsump~lndpi+lnwealth+wealm1+intm1, data=data)      
 summary(modelwithm1)
 
 
@@ -115,20 +119,28 @@ dwtest(modelwithLCm1)
 
 
 
+
+
+
+
+
+
+
+###   replacement has 53 rows, data has 54
 ##DIFF# 
-diffentiateew<-data$lnconsump[2:dim(data)[1]] - data$lnconsump[1:dim(data)[1]-1]   
-ynew<-diff(data$lnconsump, difference=1)  
-data$ynewww<-ynew
+diffentiateew <- data$lnconsump[2:dim(data)[1]] - data$lnconsump[1:dim(data)[1]-1]   
+ynew <- diff(data$lnconsump, difference=1)  
+
+
+# data$ynewww <- ynew
+data$ynew<-c(NA,ynew) 
+
 
 
 
 acf(data$lnconsump)
 
-
-data$ynew<-c(NA,ynew) 
-
-
-
+par(mfrow=c(1,1))
 
 ynew<-diff(data$lnconsump, difference=1) 
 lndpinew<-diff(data$lndpi, difference=1)
@@ -171,7 +183,6 @@ cor(data$dlnwealth[2:54], data$interest[2:54])
 install.packages("car")
 library(car)
 vif(modelwithdiff)
-
 
 
 
